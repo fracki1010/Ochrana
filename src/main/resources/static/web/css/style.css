@@ -1,0 +1,134 @@
+body{
+    background-position: 310% 200%;
+}
+
+.links:hover{
+    font-weight: bold;
+}
+
+.menu-logo{
+    width: 12rem;
+}
+
+.img-nav{
+    max-width: 100%;
+    width: 12rem;
+}
+
+/*accounts*/
+
+.account{
+    background-color: #DC3545;
+    color: white;
+    font-size: 1rem;
+    border-radius: 1rem;
+    decoration: none;
+}
+
+a .card-body:hover{
+    height: 140%;
+    font-size: 3rem;
+    text-decoration: white;
+    border-radius: 1rem;
+    box-shadow: 0.5rem 0.5rem 0.5rem black;
+    transition: 0.4s;
+}
+
+.loan {
+    background: linear-gradient(45deg, #ee09cf, #0026ff);
+    color: white;
+    border-radius: 1rem;
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: -5rem;
+}
+
+
+@media (max-width: 768px){
+.dropdown-menu[data-bs-popper] {
+    left: 0rem;
+}
+}
+
+nav-user:hover{
+
+}
+
+.profile{
+    height: 10rem;
+}
+
+.container{
+    border-radius:1rem;
+}
+
+
+
+.account-balance {
+    font-size: 2em;
+    margin: 0px;
+}
+
+.account-link {
+    text-decoration: none;
+}
+
+.credit-transaction {
+    color: green;
+}
+
+.debit-transaction {
+    color: red;
+}
+
+
+/* Animaciones de los btb nav
+----------------------------------------------------*/
+.menu{
+    display: flex;
+    justify-content: left;
+}
+
+.menu a {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.menu a span {
+    transition: transform 0.2s ease-out;
+}
+
+.menu a span:first-child {
+    display: inline-block;
+    padding: 10px;
+}
+
+.menu a span:last-child {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-100%);
+}
+
+.menu a:hover span:first-child {
+    transform: translateY(100%);
+}
+
+.menu a:hover span:last-child,
+.menu[data-animation] a:hover span:last-child {
+    transform: none;
+}
+
+  /* ANIMATIONS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.menu[data-animation="to-top"] a span:last-child {
+    transform: translateY(100%);
+}
+
