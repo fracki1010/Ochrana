@@ -28,7 +28,7 @@ public class AccountServiceImplement implements AccountService {
     private ClientRepository clientRepository;
 
     @Override
-    public List<AccountDTO> getAccount(){
+    public List<AccountDTO> getAccounts(){
         List<Account> allAccounts = accountRepository.findAll();
 
         return allAccounts

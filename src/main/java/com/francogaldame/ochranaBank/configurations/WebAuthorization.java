@@ -35,7 +35,7 @@ public class WebAuthorization{
                 .antMatchers( HttpMethod.GET,"/api/clients/current/accounts").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/transactions").hasAnyAuthority("CLIENT","ADMIN")
-                .antMatchers("/api/accounts").hasAnyAuthority("ADMIN","CLIENT")
+               /* .antMatchers("/api/accounts").hasAnyAuthority("ADMIN","CLIENT")*/
                 .antMatchers("/api/accounts/**").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.GET, "/api/loans").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/loans").hasAnyAuthority("ADMIN","CLIENT")
@@ -44,7 +44,8 @@ public class WebAuthorization{
                 .antMatchers("/web/accounts.html").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
                 .antMatchers("/api/clients").hasAuthority("ADMIN")
-                .anyRequest().denyAll();
+                .antMatchers("web/manager").hasAuthority("ADMIN");
+                /*.anyRequest().denyAll();*/
 
         http.formLogin()
                 .usernameParameter("email")

@@ -18,8 +18,8 @@ public class AccountController {
 
 
     @GetMapping("/accounts")
-    public List<AccountDTO> getAccount(){
-        return accountService.getAccount();
+    public List<AccountDTO> getAccounts(){
+        return accountService.getAccounts();
     }
 
     @GetMapping("/accounts/{id}")

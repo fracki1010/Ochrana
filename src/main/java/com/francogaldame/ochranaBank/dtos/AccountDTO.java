@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class AccountDTO {
     private Long id;
-
+    private String owner;
     private String number;
     private LocalDate creationDate;
     private Double balance;
@@ -21,6 +21,8 @@ public class AccountDTO {
         this.number = account.getNumber();
         this.creationDate = account.getCreationDate();
         this.balance = account.getBalance();
+        this.owner = account.getClient().getFirstName() +
+                " "+ account.getClient().getLastName();
         this.transactions = account
                             .getTransactions()
                             .stream()
@@ -34,6 +36,14 @@ public class AccountDTO {
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getNumber() {

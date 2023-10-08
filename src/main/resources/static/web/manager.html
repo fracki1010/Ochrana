@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="img/logo-solo-ochrana-sin-fondo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <script src="https://kit.fontawesome.com/3f4db2cda2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Manager</title>
+</head>
+
+<body class="text-dark bg-light">
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<div id="app" v-cloak>
+    <div class="toast-container position-absolute p-3 top-0 end-0 mt-5" id="toastPlacement">
+        <div id="danger-toast" data-bs-delay="3000" class="toast align-items-center text-white bg-danger border-0 m-3"
+             role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ errorMsg }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Barra de navegacion -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="p-1 pe-3">
+                <img src="img/logo-ochrana-sin-fondo.png" class="img-nav">
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ps-4 container-fluid" id="navbar">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 fs-5">
+                    <li class="nav-item">
+                        <div class="menu text-dark">
+                            <a href="/web/accounts.html" class="text-light ps-2">
+                                <span>Accounts</span>
+                                <span>
+                                        <i class="fa-solid fa-wallet fa-2xl"></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="menu text-dark">
+                            <a href="/web/cards.html" class="text-light ps-2">
+                                <span>Cards</span>
+                                <span>
+                                        <i class="fa-solid fa-credit-card fa-2xl"></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="menu text-dark">
+                            <a href="/web/transfers.html" class="text-light ps-2">
+                                <span>Transfers</span>
+                                <span>
+                                        <i class="fa-solid fa-money-bill-transfer fa-2xl" ></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="menu text-dark">
+                            <a href="/web/loan-application.html" class="text-light ps-2">
+                                <span>Loans</span>
+                                <span>
+                                        <i class="fa-solid fa-landmark fa-2xl"></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <span class="p-0 m-0 d-flex align-items-center">
+                        <p class="text-light fs-5 ps-3 m-0">{{clientInfo.firstName}}, {{clientInfo.lastName}}</p>
+                    </span>
+                <span class="p-0 ms-3">
+                        <div class="nav-item dropdown nav-user">
+                            <a class="nav-link fs-5 p-0 dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-circle-user fa-2xl ms-2"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="d-flex justify-content-center"><img src="img/Free%20Icon%20_%20Profile%20user.jpeg" style="width:4rem"></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li class="d-flex justify-content-center"><button class="btn btn-danger img-fluid" v-on:click="signOut">Sign out</button></li>
+                            </ul>
+                        </div>
+                    </span>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container m-4 bg-dark">
+        <!--<div class="row mt-2">
+            <div class="col mb-3">
+                <div class="row mt-3">
+                    <div class="col">
+                        <h2 class="display-5 fw-semibold">Accounts</h2>
+                        <button v-if="clientInfo.accounts != null && clientInfo.accounts.length < 3"
+                                v-on:click="createCard" id="create" class="btn btn-sm btn-success">Create</button>
+                    </div>
+                </div>
+                <div class="row mx-2">
+                    <div v-for="account in clientInfo.accounts" class="col-12 col-md-4 mt-2 ">
+                        <a class="text-decoration-none" v-bind:href="'/web/account.html?id='+account.id">
+                            <div class="border-0 account">
+                                <div class="card-body">
+                                    <p class="card-title fw-bold fs-2">{{ account.number }}</p>
+                                    <p class="card-text lead"> {{ formatDate(account.creationDate) }}</p>
+                                    <p class="text-center"> ${{ account.balance }} </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                        <h2 class="display-6">Loans</h2>
+                        <span class="small" v-if="clientInfo.loan != null && clientInfo.loans.length <= 0">No
+                                loans</span>
+                    </div>
+                </div>
+                <div class="row mx-2">
+                    <div v-for="loan in clientInfo.loans" class="col-12 col-md-6 mt-3">
+                        <div class="card border-0 loan">
+                            <div class="row">
+                                <div class="col ms-4 mt-2">
+                                    <h5 class="row fs-4">{{ loan.name }}</h5>
+                                    <p class="row"> payments: {{ loan.payments}}</p>
+                                </div>
+                                <div class="col d-flex align-items-center">
+                                    <p class="fs-2 p-3">${{ loan.amount }}  </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="bg-dark m-2 p-3">
+            <div v-for="account in accountsInfo" class="row m-2 bg-info">
+                <div class="col bg-success p-2">
+                    Account: {{account.number}} de {{account.owner}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+<script src="js/manager.js"></script>
+</body>
+</html>
