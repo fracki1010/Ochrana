@@ -7,6 +7,9 @@ const app = createApp({
             password: "",
             firstName: "",
             lastName: "",
+            dni: "",
+            birthdate: "",
+            cuil: "",
             errorToats: null,
             errorMsg:"",
             showSignUp: false,
@@ -25,7 +28,13 @@ const app = createApp({
                         }
                     }
             axios.post('/api/login', `email=${this.email}&password=${this.password}`, config)
-                .then(response => window.location.href = "/web/accounts.html")
+                .then((response) => {
+                    if (this.email.includes("@admin.com")) {
+                      window.location.href = "/web/manager-clients.html";
+                    } else {
+                      window.location.href = "/web/accounts.html";
+                    }
+                  })
                 .catch(() => {
                     this.errorMsg = "Sign in failed, check the information"
                     this.errorToats.show();
@@ -40,12 +49,13 @@ const app = createApp({
                             'content-type': 'application/x-www-form-urlencoded'
                         }
                     }
-                    axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`, config)
+                    axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}&rolType=CLIENT&dni=${this.dni}&birthdate=${this.birthdate}&cuil=${this.cuil}`, config)
                         .then(() => { this.logIn(event) })
                         .catch(() => {
                             this.errorMsg = "Sign up failed, check the information"
                             this.errorToats.show();
                         })
+                        console.log(this.birthdate);
         },
         showSignUpToogle: function () {
                     this.showSignUp = !this.showSignUp;

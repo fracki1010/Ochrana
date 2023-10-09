@@ -3,6 +3,7 @@ package com.francogaldame.ochranaBank.services.implement;
 import com.francogaldame.ochranaBank.dtos.ClientDTO;
 import com.francogaldame.ochranaBank.models.Account;
 import com.francogaldame.ochranaBank.models.Client;
+import com.francogaldame.ochranaBank.models.RolType;
 import com.francogaldame.ochranaBank.repositories.AccountRepository;
 import com.francogaldame.ochranaBank.repositories.ClientRepository;
 import com.francogaldame.ochranaBank.services.ClientService;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -55,10 +58,12 @@ public class ClientServiceImplement implements ClientService {
 
     //registrar un cliente nuevo
     @Override
-    public ResponseEntity<Object> register(String firstName,  String lastName,
-             String email,  String password, Authentication authentication){
+    public ResponseEntity<Object> register(String firstName, String lastName,
+                                           String email, String password, RolType rolType,
+                                           String DNI, String birthdate,
+                                           String cuil, Authentication authentication){
 
-        if (firstName.isEmpty() || lastName.isEmpty()||email.isEmpty()||password.isEmpty()){
+        if (firstName.isEmpty() || lastName.isEmpty()||email.isEmpty()||password.isEmpty() || DNI.isBlank() || birthdate.isBlank()){
             return new ResponseEntity<>("Porfavor completa todo los datos", HttpStatus.FORBIDDEN);
         }
 
@@ -79,8 +84,31 @@ public class ClientServiceImplement implements ClientService {
         //creacion de la cuenta unica
         Account accountCurrent = new Account(numberAccount, LocalDate.now(),0.0);
 
+        //Asignación de rol
+        if (email.contains("@admin.com")){
+            rolType = RolType.ADMIN;
+        }
+
+        //Transformar la fecha a LocalDate
+        LocalDate birthdateChange = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        //Identificar si es mayor
+        if (Period.between(birthdateChange, LocalDate.now()).getYears() <= 18){
+            return new ResponseEntity<>("Esta persona es menor de edad", HttpStatus.FORBIDDEN);
+        }
+
+        //Verifica que el dni no tenga puntos y no tenga menos de 7 digitos
+        if(DNI.length() <= 7 || DNI.length() >= 9 || DNI.contains(".")){
+            return new ResponseEntity<>("El DNI no es valido", HttpStatus.FORBIDDEN);
+        }
+
+        //Verifica que el cuil no tenga errores
+        if(!cuil.matches("\\d{2}-\\d{8}-\\d")){
+            return new ResponseEntity<>("El cuil no es valido", HttpStatus.FORBIDDEN);
+        }
+
         //Identificaion del clinte y asignacion de cuenta a cliente
-        Client client = new Client(firstName,lastName,email,passwordEncoder.encode(password));
+        Client client = new Client(firstName,lastName,email,passwordEncoder.encode(password), rolType, DNI, birthdateChange, cuil);
         client.addAccount(accountCurrent);
 
         //Guardado de cliente

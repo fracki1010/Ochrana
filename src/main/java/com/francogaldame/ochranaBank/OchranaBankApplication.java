@@ -26,8 +26,8 @@ public class OchranaBankApplication <commandLineRunner> {
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 		return (arg) -> {
 			//Creacion de clientes
-			Client client1 = new Client("Melba", "Morel", "melba@gmail.com", passwordEncoder.encode("1234"));
-			Client client2 = new Client("Franco", "Galdame", "franco23@admin.com", passwordEncoder.encode("123"));
+			Client client1 = new Client("Melba", "Morel", "melba@gmail.com", passwordEncoder.encode("1234"), RolType.CLIENT, "42.793.845", LocalDate.of(2001,12,20),"20-42793845-0");
+			Client client2 = new Client("Franco", "Galdame", "franco23@admin.com", passwordEncoder.encode("123"), RolType.ADMIN, "44.453.234", LocalDate.of(2000,7,5),"20-25362967-1");
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);

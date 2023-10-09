@@ -21,7 +21,6 @@ public class Account {
     private String number;
     private LocalDate creationDate;
     private Double balance;
-
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     Set<Transaction> transactions = new HashSet<>();
 

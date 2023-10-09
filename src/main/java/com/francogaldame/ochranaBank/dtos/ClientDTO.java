@@ -2,7 +2,11 @@ package com.francogaldame.ochranaBank.dtos;
 
 
 import com.francogaldame.ochranaBank.models.Client;
+import com.francogaldame.ochranaBank.models.RolType;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,6 +16,11 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private RolType rol;
+    private String dni;
+    private String birthdate;
+    private String cuil;
+    private int age;
     private Set<AccountDTO> accounts = new HashSet<>();
     private Set<ClientLoanDTO> loans = new HashSet<>();
     private Set<CardDTO> cards = new HashSet<>();
@@ -22,6 +31,11 @@ public class ClientDTO {
         this.firstName = client.getFirstName();
         this.lastName = client.getLastName();
         this.email = client.getEmail();
+        this.rol = client.getRol();
+        this.dni = client.getDni();
+        this.birthdate = client.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.cuil = client.getCuil();
+        this.age = Period.between(client.getBirthdate(), LocalDate.now()).getYears();
         this.accounts = client
                             .getAccounts()
                             .stream()
@@ -53,6 +67,26 @@ public class ClientDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public RolType getRol() {
+        return rol;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public String getCuil() {
+        return cuil;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public Set<AccountDTO> getAccounts() {

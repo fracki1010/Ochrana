@@ -2,28 +2,27 @@ Vue.createApp({
     data() {
         return {
             clientInfo: {},
-            clientsInfo: {},
+            clientSearchInfo: {},
             accountsInfo: {},
             errorToats: null,
             errorMsg: null,
         }
     },
     methods: {
-        prueba: function (parametro) {
-            console.log(this.clientInfo);
-            console.log(parametro);
-        },
-        getAllClientsData: function () {
-            axios.get("/api/clients")
+        getData: function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            axios.get(`/api/clients/${id}`)
                 .then((response) => {
-                    //Obtener todos los clientes registrados
-                    this.clientsInfo = response.data;
+                    //get client ifo
+                    this.clientSearchInfo = response.data;
+                    /*this.clientSearchInfo.transactions.sort((a, b) => (b.id - a.id))*/
                 })
                 .catch((error) => {
+                    // handle error
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
                 })
-
         },
         getDataClient: function () {
             axios.get("/api/clients/current")
@@ -33,17 +32,6 @@ Vue.createApp({
                 })
                 .catch((error) => {
                     // Por si no hay un cliente autenticado y no obtiene nada
-                    this.errorMsg = "Error getting data";
-                    this.errorToats.show();
-                })
-        },
-        getAllAccountsData: function () {
-            axios.get("/api/accounts")
-                .then((response) => {
-                //Obtener las cuentas de cada cliente registrado
-                    this.accountsInfo = response.data;
-                })
-                .catch((error) => {
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
                 })
@@ -71,7 +59,6 @@ Vue.createApp({
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
         this.getDataClient();
-        this.getAllAccountsData();
-        this.getAllClientsData();
+        this.getData();
     }
 }).mount('#app')

@@ -3,6 +3,7 @@ package com.francogaldame.ochranaBank.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,10 @@ public class Client {
     private String lastName;
     private String email;
     private String password;
+    private RolType rol;
+    private String dni;
+    private LocalDate birthdate;
+    private String cuil;
 
     //Propiedad nueva en mis cuentas, uno a muchos
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
@@ -38,11 +43,15 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String email, String password) {
+    public Client(String firstName, String lastName, String email, String password, RolType rol, String dni, LocalDate birthdate, String cuil) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.rol = rol;
+        this.dni = dni;
+        this.birthdate = birthdate;
+        this.cuil = cuil;
     }
 
     public Set<Account> getAccounts() {
@@ -53,6 +62,9 @@ public class Client {
         return id;
     }
 
+    public RolType getRol() {
+        return rol;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -70,7 +82,6 @@ public class Client {
         this.lastName = lastName;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -85,6 +96,18 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public String getCuil() {
+        return cuil;
     }
 
     public Set<ClientLoan> getClientLoans() {

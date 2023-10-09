@@ -51,9 +51,6 @@ a .card-body:hover{
 }
 }
 
-nav-user:hover{
-
-}
 
 .profile{
     height: 10rem;
@@ -81,6 +78,25 @@ nav-user:hover{
 .debit-transaction {
     color: red;
 }
+
+.card-client:hover {
+    background-color: black;
+    font-size: 3rem;
+    text-decoration: white;
+    border-radius: 1rem;
+    transition: 0.8s;
+}
+
+.text-information{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.card-account{
+    background: linear-gradient(to bottom, #4d4d4d 30%, #ff0000 70%);
+}
+
 
 
 /* Animaciones de los btb nav

@@ -1,11 +1,14 @@
 package com.francogaldame.ochranaBank.controllers;
 
 import com.francogaldame.ochranaBank.dtos.ClientDTO;
+import com.francogaldame.ochranaBank.models.RolType;
 import com.francogaldame.ochranaBank.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -33,8 +36,9 @@ public class ClientController {
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password,
-            Authentication authentication){
-        return clientService.register(firstName, lastName, email, password, authentication);
+            @RequestParam RolType rolType, @RequestParam String dni,
+            @RequestParam String birthdate, @RequestParam String cuil, Authentication authentication){
+        return clientService.register(firstName, lastName, email, password, rolType, dni, birthdate, cuil, authentication);
     }
 
 
