@@ -1,7 +1,7 @@
 Vue.createApp({
     data() {
         return {
-            clientInfo: {},
+            clientInfo: [],
             clientSearchInfo: {},
             accountsInfo: {},
             errorToats: null,

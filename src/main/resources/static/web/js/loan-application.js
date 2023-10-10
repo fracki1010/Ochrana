@@ -32,7 +32,7 @@ Vue.createApp({
         getData: function () {
             Promise.all([axios.get("/api/loans"), axios.get("/api/clients/current/accounts")])
                 .then((response) => {
-                    //get loan types ifo
+                    //get loan types info
                     this.loanTypes = response[0].data;
                     this.clientAccounts = response[1].data;
                 })

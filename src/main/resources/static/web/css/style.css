@@ -97,6 +97,23 @@ a .card-body:hover{
     background: linear-gradient(to bottom, #4d4d4d 30%, #ff0000 70%);
 }
 
+/* Animaciones de las tarjetas
+----------------------------------------------------*/
+
+.gold-plastic-card {
+	background: linear-gradient(45deg, #ecad36, #bea328);
+}
+
+.silver-plastic-card {
+	background: linear-gradient(45deg, #adadad, #646463);
+}
+
+.titanium-plastic-card {
+	background: linear-gradient(45deg, #6ea3e0, #185781);
+}
+
+
+
 
 
 /* Animaciones de los btb nav

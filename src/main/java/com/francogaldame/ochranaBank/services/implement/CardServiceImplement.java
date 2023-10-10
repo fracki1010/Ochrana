@@ -27,13 +27,12 @@ public class CardServiceImplement implements CardService {
     private ClientRepository clientRepository;
 
     @Override
-    public ResponseEntity<Object> createdCard(
-            @RequestParam CardType cardType, @RequestParam CardColor cardColor,
-            Authentication authentication) {
+    public ResponseEntity<Object> createdCard(CardType cardType,CardColor cardColor,
+            String emailClientLoan) {
 
         //Variables para el color y tipo
         String colorOrTypeCard = "";
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientRepository.findByEmail(emailClientLoan);
 
         //Tarjetas del cliente del tipo pedido
         Set<Card> currentCardType = client
@@ -106,7 +105,7 @@ public class CardServiceImplement implements CardService {
                 LocalDate.now().plusYears(5));
 
         //Asignacion de tarjeta a cliente
-        clientRepository.findByEmail(authentication.getName()).addCard(card);
+        clientRepository.findByEmail(client.getEmail()).addCard(card);
 
         //Guardado de tarjera
         cardRepository.save(card);

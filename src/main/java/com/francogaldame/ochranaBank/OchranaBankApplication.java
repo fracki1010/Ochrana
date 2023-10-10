@@ -23,7 +23,10 @@ public class OchranaBankApplication <commandLineRunner> {
 	PasswordEncoder passwordEncoder;
 
 	@Bean
-	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
+	public CommandLineRunner initData(ClientRepository clientRepository,
+									  AccountRepository accountRepository, TransactionRepository transactionRepository,
+									  LoanRepository loanRepository, ClientLoanRepository clientLoanRepository,
+									  CardRepository cardRepository, PendingRepository pendingRepository) {
 		return (arg) -> {
 			//Creacion de clientes
 			Client client1 = new Client("Melba", "Morel", "melba@gmail.com", passwordEncoder.encode("1234"), RolType.CLIENT, "42.793.845", LocalDate.of(2001,12,20),"20-42793845-0");
@@ -117,6 +120,9 @@ public class OchranaBankApplication <commandLineRunner> {
 			cardRepository.save(card3);
 			cardRepository.save(card4);
 
+			Pending pending1 = new Pending("card", client1.getEmail(), CardType.CREDIT.toString(), CardColor.SILVER.toString(), loan1.getId(), 0.0, 0 );
+
+			pendingRepository.save(pending1);
 		};
 	}
 }
