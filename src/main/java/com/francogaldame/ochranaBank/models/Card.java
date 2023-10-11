@@ -19,6 +19,7 @@ public class Card {
     private String cvv;
     private LocalDate thruDate;
     private LocalDate fromDate;
+    private boolean approved;
 
     //Propiedad <<Client>> muchos a uno
 
@@ -30,7 +31,8 @@ public class Card {
     public Card(){
     }
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, String cvv, LocalDate thruDate, LocalDate fromDate) {
+    public Card(String cardHolder, CardType type, CardColor color, String number,
+                String cvv, LocalDate thruDate, LocalDate fromDate, Boolean approved) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -38,6 +40,7 @@ public class Card {
         this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
+        this.approved = approved;
     }
 
     public Long getId() {
@@ -94,6 +97,14 @@ public class Card {
 
     public LocalDate getFromDate() {
         return fromDate;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public void setFromDate(LocalDate fromDate) {

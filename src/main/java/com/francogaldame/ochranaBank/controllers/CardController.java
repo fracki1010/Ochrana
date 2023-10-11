@@ -22,8 +22,18 @@ public class CardController {
     @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createdCard(
             @RequestParam CardType cardType, @RequestParam CardColor cardColor,
-            @RequestParam String emailClientLoad){
-        return cardService.createdCard(cardType, cardColor, emailClientLoad);
+            Authentication authentication){
+        return cardService.createdCard(cardType, cardColor, authentication);
+    }
+
+    @PostMapping("/clients/current/cards/approved")
+    public ResponseEntity<Object> approvedCard(@RequestParam String numberCard){
+        return cardService.approvedCard(numberCard);
+    }
+
+    @PostMapping("/clients/current/cards/delete")
+    public ResponseEntity<Object> deleteCard(@RequestParam String numberCard){
+        return cardService.deleteCard(numberCard);
     }
 
 }

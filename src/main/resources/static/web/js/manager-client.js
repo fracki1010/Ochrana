@@ -36,6 +36,37 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
+        approvedCard: function (numberCardClient)  {
+            event.preventDefault();
+                let config = {
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            axios.post(`/api/clients/current/cards/approved?numberCard=${numberCardClient}`, config)
+                .then(response => window.location.reload())
+                .catch((error) => {
+                    // Por si no hay un cliente autenticado y no obtiene nada
+                    this.errorMsg = "Error getting data";
+                    this.errorToats.show();
+                })
+                console.log(numberCardClient);
+        },
+        deleteCard: function (numberCardClient) {
+            event.preventDefault();
+                    let config = {
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded'
+                        }
+                    }
+            axios.post(`/api/clients/current/cards/delete?numberCard=${numberCardClient}`, config)
+                .then(response => window.location.reload())
+                .catch((error) => {
+                    // Por si no hay un cliente autenticado y no obtiene nada
+                    this.errorMsg = "Error getting data";
+                    this.errorToats.show();
+                })
+        },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
         },

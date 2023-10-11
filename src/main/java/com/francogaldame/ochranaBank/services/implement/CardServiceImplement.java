@@ -28,11 +28,11 @@ public class CardServiceImplement implements CardService {
 
     @Override
     public ResponseEntity<Object> createdCard(CardType cardType,CardColor cardColor,
-            String emailClientLoan) {
+            Authentication authentication) {
 
         //Variables para el color y tipo
         String colorOrTypeCard = "";
-        Client client = clientRepository.findByEmail(emailClientLoan);
+        Client client = clientRepository.findByEmail(authentication.getName());
 
         //Tarjetas del cliente del tipo pedido
         Set<Card> currentCardType = client
@@ -102,10 +102,11 @@ public class CardServiceImplement implements CardService {
                 numberCard,
                 cvv,
                 LocalDate.now(),
-                LocalDate.now().plusYears(5));
+                LocalDate.now().plusYears(5),
+                false);
 
         //Asignacion de tarjeta a cliente
-        clientRepository.findByEmail(client.getEmail()).addCard(card);
+        clientRepository.findByEmail(authentication.getName()).addCard(card);
 
         //Guardado de tarjera
         cardRepository.save(card);
@@ -115,5 +116,20 @@ public class CardServiceImplement implements CardService {
 
     private static String getCvv() {
         return String.valueOf(CardUtils.randomNumber(100, 999));
+    }
+
+    @Override
+    public ResponseEntity<Object> approvedCard(String numberCard) {
+        Card card = cardRepository.findByNumber(numberCard);
+        card.setApproved(true);
+        cardRepository.save(card);
+        return new ResponseEntity<>("approved Card",HttpStatus.ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteCard(String numberCard) {
+        Card card = cardRepository.findByNumber(numberCard);
+        cardRepository.delete(card);
+        return new ResponseEntity<>("delete Card",HttpStatus.ACCEPTED);
     }
 }

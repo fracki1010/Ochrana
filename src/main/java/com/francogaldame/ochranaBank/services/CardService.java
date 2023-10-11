@@ -10,6 +10,9 @@ public interface CardService {
 
 
     ResponseEntity<Object> createdCard(CardType cardType, CardColor cardColor,
-                                       String emailClientLoan);
+                                       Authentication authentication);
 
+    ResponseEntity<Object> approvedCard(String numberCard);
+
+    ResponseEntity<Object> deleteCard(String numberCard);
 }

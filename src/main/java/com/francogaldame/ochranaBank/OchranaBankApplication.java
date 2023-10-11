@@ -104,11 +104,11 @@ public class OchranaBankApplication <commandLineRunner> {
 
 			//Creacion de prestamo
 
-			Card card1 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.DEBIT, CardColor.GOLD, "5090340500", "998", LocalDate.now(), LocalDate.now().plusYears(5));
-			Card card2 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.TITANIUM, "5085909058", "889", LocalDate.now(), LocalDate.now().plusYears(5));
-			Card card4 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.GOLD, "5085909068", "839", LocalDate.now(), LocalDate.now().plusYears(5));
+			Card card1 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.DEBIT, CardColor.GOLD, "5090-6554-4233-2112", "998", LocalDate.now(), LocalDate.now().plusYears(5), true);
+			Card card2 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.TITANIUM, "5085-5433-2345-5342", "889", LocalDate.now(), LocalDate.now().plusYears(5), false);
+			Card card4 = new Card(client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.GOLD, "5555-3467-6453-5533", "839", LocalDate.now(), LocalDate.now().plusYears(5), true);
 
-			Card card3 = new Card(client2.getFirstName() + " " + client2.getLastName(), CardType.CREDIT, CardColor.SILVER, "5040563020", "337", LocalDate.now(), LocalDate.now().plusYears(6));
+			Card card3 = new Card(client2.getFirstName() + " " + client2.getLastName(), CardType.CREDIT, CardColor.SILVER, "5040-2345-6577-9871", "337", LocalDate.now(), LocalDate.now().plusYears(6), true);
 
 			client1.addCard(card1);
 			client1.addCard(card2);

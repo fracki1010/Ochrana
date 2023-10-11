@@ -97,6 +97,11 @@ a .card-body:hover{
     background: linear-gradient(to bottom, #4d4d4d 30%, #ff0000 70%);
 }
 
+.drop-pending:hover{
+    background-color: #1e5c29;
+}
+
+
 /* Animaciones de las tarjetas
 ----------------------------------------------------*/
 
