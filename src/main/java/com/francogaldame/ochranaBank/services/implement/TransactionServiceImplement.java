@@ -13,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Transactional
 @Service
 public class TransactionServiceImplement implements TransactionService {
 
@@ -67,6 +68,11 @@ public class TransactionServiceImplement implements TransactionService {
         //Busqueda de ambas cuentas en la base de datos y asignacion a una variable
         Account originAccount = accountRepository.findByNumber(fromAccountNumber);
         Account destinationAccount = accountRepository.findByNumber(toAccountNumber);
+
+        //Verifica que las cuentas elegidas esten aprobadas
+        if (!originAccount.getApproved() || !destinationAccount.getApproved()){
+            return new ResponseEntity<>("Cuenta no aprobada", HttpStatus.FORBIDDEN);
+        }
 
         //Condicion el cliente tiene el balance suficiente para la transaccion
         if(originAccount.getBalance() < amount){

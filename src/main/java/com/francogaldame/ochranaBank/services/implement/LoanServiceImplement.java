@@ -2,7 +2,9 @@ package com.francogaldame.ochranaBank.services.implement;
 
 
 import com.francogaldame.ochranaBank.dtos.LoanApplicationDTO;
+import com.francogaldame.ochranaBank.dtos.LoanApprovedDTO;
 import com.francogaldame.ochranaBank.dtos.LoanDTO;
+import com.francogaldame.ochranaBank.dtos.LoanDeleteDTO;
 import com.francogaldame.ochranaBank.models.*;
 import com.francogaldame.ochranaBank.repositories.*;
 import com.francogaldame.ochranaBank.services.LoanService;
@@ -84,27 +86,56 @@ public class LoanServiceImplement implements LoanService {
             return new ResponseEntity<>("La cuenta de destino no pertenece al cliente autenticado", HttpStatus.FORBIDDEN);
         }
 
-
+        //Verifica que la cuenta esta previamente aprobada por un administrador
+        if(!accountClient.getApproved()){
+            return new ResponseEntity<>("La cuenta de destino no esta aprobada", HttpStatus.FORBIDDEN);
+        }
 
         //Creacion del Prestamo al cliente
         ClientLoan clientLoan = new ClientLoan(loanApplicationDTO.getPayments(),
-                loanApplicationDTO.getAmount() * 1.2, client, loan);
+                loanApplicationDTO.getAmount() * 1.2, loanApplicationDTO.getToAccountNumber(), client, loan, false);
 
-        //Creacion de la transaccion
-        Transaction transaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(),
-                loan.getName()+" loan approved", LocalDate.now());
 
-        //Asignacion del dinero a la cuenta
-        accountClient.setBalance(accountClient.getBalance()+(loanApplicationDTO.getAmount()));
-
-        //Asignacion de transaccion a la cuenta
-        accountClient.addTransaction(transaction);
-
-        //Guardado de cuenta, cliente y transaccion
-        transactionRepository.save(transaction);
+        //Guardado de cuenta y cliente
         accountRepository.save(accountClient);
         clientLoanRepository.save(clientLoan);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity approvedLoan(LoanApprovedDTO loanApprovedDTO){
+        Loan loan = loanRepository.findByName(loanApprovedDTO.getLoanName());
+        Account accountClient = accountRepository.findByNumber(loanApprovedDTO.getToAccountNumber());
+
+        //Aprobacion del prestamo
+        ClientLoan clientLoan = clientLoanRepository.findById(loanApprovedDTO.getClientLoanId()).orElse(null);
+        clientLoan.setApproved(true);
+
+
+        //Creacion de la transaccion
+        Transaction transaction = new Transaction(TransactionType.CREDIT, loanApprovedDTO.getAmount(),
+                loan.getName()+" loan approved", LocalDate.now());
+
+        //Asignacion del dinero a la cuenta
+        accountClient.setBalance(accountClient.getBalance()+(loanApprovedDTO.getAmount()));
+
+        //Asignacion de transaccion a la cuenta
+        accountClient.addTransaction(transaction);
+
+        //Guardado de transaccion
+        clientLoanRepository.save(clientLoan);
+        accountRepository.save(accountClient);
+        transactionRepository.save(transaction);
+
+        return new ResponseEntity("Se realizo la aprobacion del pago",HttpStatus.OK);
+    }
+
+
+    //elimina el prestamo
+    @Override
+    public ResponseEntity deleteLoan(Long loanDeleteDTO){
+        clientLoanRepository.deleteById(loanDeleteDTO);
+        return new ResponseEntity("Se elimino el prestamo",HttpStatus.OK);
     }
 }

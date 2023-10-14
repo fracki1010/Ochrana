@@ -82,7 +82,7 @@ public class ClientServiceImplement implements ClientService {
         }while (accountRepository.existsByNumber(numberAccount));
 
         //creacion de la cuenta unica
-        Account accountCurrent = new Account(numberAccount, LocalDate.now(),0.0);
+        Account accountCurrent = new Account(numberAccount, LocalDate.now(),0.0, true);
 
         //Asignación de rol
         if (email.contains("@admin.com")){

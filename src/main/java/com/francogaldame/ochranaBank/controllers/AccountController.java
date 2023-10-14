@@ -37,6 +37,15 @@ public class AccountController {
         return accountService.createdAccount(authentication);
     }
 
+    @PostMapping("/clients/current/accounts/approved")
+    public ResponseEntity<Object> approvedAccount(@RequestParam String numberAccount){
+        return accountService.approvedAccount(numberAccount);
+    }
+
+    @PostMapping("/clients/current/accounts/delete")
+    public ResponseEntity<Object> deleteAccount(@RequestParam String numberAccount){
+        return accountService.deleteAccount(numberAccount);
+    }
 
     //Identificacion del cliente
     public Client getCurrentClient(Authentication authentication){

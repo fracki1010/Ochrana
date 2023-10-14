@@ -5,6 +5,7 @@ import com.francogaldame.ochranaBank.models.Account;
 import com.francogaldame.ochranaBank.models.Client;
 import com.francogaldame.ochranaBank.repositories.AccountRepository;
 import com.francogaldame.ochranaBank.repositories.ClientRepository;
+import com.francogaldame.ochranaBank.repositories.TransactionRepository;
 import com.francogaldame.ochranaBank.services.AccountService;
 import com.francogaldame.ochranaBank.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class AccountServiceImplement implements AccountService {
 
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @Override
     public List<AccountDTO> getAccounts(){
@@ -70,7 +73,7 @@ public class AccountServiceImplement implements AccountService {
 
 
         //creacion de la cuenta unica
-        Account accountCurrent = new Account(numberAccount, LocalDate.now(),0.0);
+        Account accountCurrent = new Account(numberAccount, LocalDate.now(),0.0, false);
 
         //Identificaion del clinte y asignacion de cuenta a cliente
         clientRepository.findByEmail(authentication.getName()).addAccount(accountCurrent);
@@ -79,6 +82,33 @@ public class AccountServiceImplement implements AccountService {
         accountRepository.save(accountCurrent);
 
         return new ResponseEntity<>("Cuenta creada con exito",HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Object> approvedAccount(String numberAccount){
+        Account accountClient = accountRepository.findByNumber(numberAccount);
+        accountClient.setApproved(true);
+        accountRepository.save(accountClient);
+        return new ResponseEntity<>("Cuenta aprobada con exito",HttpStatus.ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteAccount(String numberAccount){
+        Account account = accountRepository.findByNumber(numberAccount);
+        //verifica que no sea la ultima cuenta que tenga el cliente
+        // en ese caso no se elimina
+        List<Account> accountApproved = account
+                                        .getClient()
+                                        .getAccounts()
+                                        .stream()
+                                        .filter(accountFilter -> accountFilter.getApproved())
+                                        .collect(Collectors.toList());
+        if (accountApproved.size() == 1) {
+            return new ResponseEntity<>("No se puede eliminar, el cliente debe tener al menos una cuenta aprobada",  HttpStatus.FORBIDDEN);
+        }
+        account.getTransactions().stream().forEach(transaction -> transactionRepository.delete(transaction));
+        accountRepository.delete(account);
+        return new ResponseEntity<>("Cuenta eliminada con exito",HttpStatus.OK);
     }
 
 

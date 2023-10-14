@@ -118,17 +118,19 @@
                         </div>
                     </div>
                     <div class="row mx-2">
-                        <div v-for="account in clientInfo.accounts" class="col-12 col-md-4 mt-2 ">
-                            <a class="text-decoration-none" v-bind:href="'/web/account.html?id='+account.id">
-                                <div class="border-0 account">
-                                    <div class="card-body">
-                                        <p class="card-title fw-bold fs-2">{{ account.number }}</p>
-                                        <p class="card-text lead"> {{ formatDate(account.creationDate) }}</p>
-                                        <p class="text-center"> ${{ account.balance }} </p>
+                        <template v-for="account in clientInfo.accounts">
+                            <div v-if="account.approved == true" class="col-12 col-md-4 mt-2 ">
+                                <a  class="text-decoration-none" v-bind:href="'/web/account.html?id='+account.id">
+                                    <div class="border-0 account">
+                                        <div class="card-body">
+                                            <p class="card-title fw-bold fs-2">{{ account.number }}</p>
+                                            <p class="card-text lead"> {{ formatDate(account.creationDate) }}</p>
+                                            <p class="text-center"> ${{ account.balance }} </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        </template>
                     </div>
                     <div class="row mt-5">
                         <div class="col">

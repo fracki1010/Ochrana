@@ -17,6 +17,8 @@ public class ClientLoanDTO {
     private String name;
     private int payments;
     private Double amount;
+    private String toAccountTransfer;
+    private Boolean approved;
     private Loan loan_id;
 
     public ClientLoanDTO(ClientLoan clientLoan) {
@@ -24,6 +26,8 @@ public class ClientLoanDTO {
         this.name = clientLoan.getLoan().getName();
         this.payments = clientLoan.getPayments();
         this.amount = clientLoan.getAmount();
+        this.toAccountTransfer = clientLoan.getToAccountTransfer();
+        this.approved = clientLoan.getApproved();
     }
 
     public Long getId() {
@@ -40,5 +44,13 @@ public class ClientLoanDTO {
 
     public Double getAmount() {
         return amount;
+    }
+
+    public String getToAccountTransfer() {
+        return toAccountTransfer;
+    }
+
+    public Boolean getApproved() {
+        return approved;
     }
 }

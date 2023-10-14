@@ -13,6 +13,8 @@ public class ClientLoan {
     private Long id;
     private int payments;
     private double amount;
+    private String toAccountTransfer;
+    private Boolean approved;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
@@ -25,9 +27,11 @@ public class ClientLoan {
     public ClientLoan() {
     }
 
-    public ClientLoan(int payments, Double amount, Client client, Loan loan) {
+    public ClientLoan(int payments, Double amount, String toAccountTransfer, Client client, Loan loan, Boolean approved) {
         this.payments = payments;
         this.amount = amount;
+        this.toAccountTransfer = toAccountTransfer;
+        this.approved = approved;
         this.client = client;
         this.loan = loan;
     }
@@ -68,4 +72,15 @@ public class ClientLoan {
         this.loan = loan;
     }
 
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public String getToAccountTransfer() {
+        return toAccountTransfer;
+    }
 }

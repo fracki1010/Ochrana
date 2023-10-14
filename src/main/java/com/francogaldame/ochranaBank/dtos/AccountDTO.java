@@ -14,6 +14,7 @@ public class AccountDTO {
     private String number;
     private LocalDate creationDate;
     private Double balance;
+    private Boolean approved;
     private Set<TransactionDTO> transactions = new HashSet<>();
 
     public AccountDTO(Account account) {
@@ -21,6 +22,7 @@ public class AccountDTO {
         this.number = account.getNumber();
         this.creationDate = account.getCreationDate();
         this.balance = account.getBalance();
+        this.approved = account.getApproved();
         this.owner = account.getClient().getFirstName() +
                 " "+ account.getClient().getLastName();
         this.transactions = account
@@ -56,6 +58,10 @@ public class AccountDTO {
 
     public Double getBalance() {
         return balance;
+    }
+
+    public Boolean getApproved() {
+        return approved;
     }
 
     public Set<TransactionDTO> getTransactions() {

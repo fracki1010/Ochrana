@@ -17,4 +17,8 @@ public interface AccountService {
     ResponseEntity<Object> createdAccount(Authentication authentication);
 
     Client getCurrentClient(Authentication authentication);
+
+    ResponseEntity<Object> approvedAccount(String numberAccount);
+
+    ResponseEntity<Object> deleteAccount(String numberAccount);
 }

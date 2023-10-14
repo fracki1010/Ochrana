@@ -31,8 +31,9 @@ Vue.createApp({
         getData: function () {
             axios.get("/api/clients/current/accounts")
                 .then((response) => {
-                    //get client ifo
-                    this.clientAccounts = response.data;
+                    //obteniendo las cuentas del cliente autenticado
+                    let clientAccountsData = response.data;
+                    this.clientAccounts = clientAccountsData.filter(account => account.approved);
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";

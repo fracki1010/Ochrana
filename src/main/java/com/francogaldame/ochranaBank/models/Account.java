@@ -21,20 +21,19 @@ public class Account {
     private String number;
     private LocalDate creationDate;
     private Double balance;
+    private Boolean approved;
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     Set<Transaction> transactions = new HashSet<>();
 
     public Account() {
     }
 
-    public Account(String number, LocalDate creationDate, Double balance) {
+    public Account(String number, LocalDate creationDate, Double balance, Boolean approved) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
+        this.approved = approved;
     } 
-
-
-
 
 
 
@@ -78,6 +77,14 @@ public class Account {
 
     public Set<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
     }
 
     public void setTransactions(Set<Transaction> transactions) {

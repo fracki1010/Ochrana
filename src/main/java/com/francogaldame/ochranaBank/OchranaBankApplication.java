@@ -37,11 +37,11 @@ public class OchranaBankApplication <commandLineRunner> {
 
 
 			//Creacion de cuentas
-			Account account1 = new Account("VIN001", LocalDate.now(), 5000.0);
-			Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500.0);
+			Account account1 = new Account("VIN001", LocalDate.now(), 5000.0, false);
+			Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500.0, true);
 
-			Account account3 = new Account("VIN003", LocalDate.now().plusDays(2), 2000.0);
-			Account account4 = new Account("VIN004", LocalDate.now().plusDays(1), 10500.0);
+			Account account3 = new Account("VIN003", LocalDate.now().plusDays(2), 2000.0, true);
+			Account account4 = new Account("VIN004", LocalDate.now().plusDays(1), 10500.0, true);
 
 
 			client1.addAccount(account1);
@@ -89,18 +89,17 @@ public class OchranaBankApplication <commandLineRunner> {
 
 			//Agregación de prestamos a clientes
 
-			ClientLoan clientLoan1 = new ClientLoan(60, 400000.0, client1, loan1);
-			ClientLoan clientLoan2 = new ClientLoan(12, 12000.0, client1, loan2);
+			ClientLoan clientLoan1 = new ClientLoan(60, 400000.0, "VIN001", client1, loan1, false);
+			ClientLoan clientLoan2 = new ClientLoan(12, 12000.0, "VIN001", client1, loan2, true);
 
 
-			ClientLoan clientLoan3 = new ClientLoan(24, 100000.0, client2, loan2);
-			ClientLoan clientLoan4 = new ClientLoan(36, 200000.0, client2, loan3);
+			ClientLoan clientLoan3 = new ClientLoan(24, 100000.0, "VIN003", client2, loan2, true);
+			ClientLoan clientLoan4 = new ClientLoan(36, 200000.0, "VIN003", client2, loan3, true);
 
 			clientLoanRepository.save(clientLoan1);
 			clientLoanRepository.save(clientLoan2);
 			clientLoanRepository.save(clientLoan3);
 			clientLoanRepository.save(clientLoan4);
-
 
 			//Creacion de prestamo
 
