@@ -71,6 +71,15 @@ public class ClientServiceImplement implements ClientService {
             return new ResponseEntity<>("Este nombre de usuario ya fue utilizado", HttpStatus.FORBIDDEN);
         }
 
+        //Verifica que el dni sea unico en la base de datos
+        if (clientRepository.existsByDni(DNI)){
+            return new ResponseEntity<>("Esta persona ya esta registrada", HttpStatus.FORBIDDEN);
+        }
+
+        //Verifica que el cuil sea unico en la base de datos
+        if (clientRepository.existsByCuil(cuil)){
+            return new ResponseEntity<>("Esta persona ya esta registrada", HttpStatus.FORBIDDEN);
+        }
 
 
         //Creador de número random y comprobar que no exista en la base de datos

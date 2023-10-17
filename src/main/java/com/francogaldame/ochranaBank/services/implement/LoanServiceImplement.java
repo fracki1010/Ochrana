@@ -1,10 +1,7 @@
 package com.francogaldame.ochranaBank.services.implement;
 
 
-import com.francogaldame.ochranaBank.dtos.LoanApplicationDTO;
-import com.francogaldame.ochranaBank.dtos.LoanApprovedDTO;
-import com.francogaldame.ochranaBank.dtos.LoanDTO;
-import com.francogaldame.ochranaBank.dtos.LoanDeleteDTO;
+import com.francogaldame.ochranaBank.dtos.*;
 import com.francogaldame.ochranaBank.models.*;
 import com.francogaldame.ochranaBank.repositories.*;
 import com.francogaldame.ochranaBank.services.LoanService;
@@ -41,6 +38,14 @@ public class LoanServiceImplement implements LoanService {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public Set<ClientLoanDTO> getClientLoans(){
+        return clientLoanRepository
+                .findAll()
+                .stream()
+                .map(loan -> new ClientLoanDTO(loan))
+                .collect(Collectors.toSet());
+    }
     @Override
     public ResponseEntity applyForLoan(LoanApplicationDTO loanApplicationDTO, Authentication authentication){
 

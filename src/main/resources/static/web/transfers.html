@@ -109,15 +109,18 @@
                     <img src="img/Free%20Icon%20_%20Profile%20user.jpeg" class="profile rounded-circle">
                 </div>
                 <div>
-                    <div class="col pb-4">
+                    <div class="col d-flex justify-content-center">
+                        <p class="fs-4 fw-bolder">{{clientInfo.firstName}} {{clientInfo.lastName}}</p>
+                    </div>
+                    <div class="col pb-3">
                         <label for="type" class="form-label">Account type</label>
-                        <select id="type" v-model="trasnferType" v-on:change="changedType"
+                        <select id="type" v-model="transferType" v-on:change="changedType"
                                 class="form-select" aria-label="Default select example" required>
                             <option value="own">Own accounts</option>
                             <option value="third">Third party accounts </option>
                         </select>
                     </div>
-                    <div class="col mb-3">
+                    <div class="col mb-2">
                         <label for="origin" class="form-label">From account</label>
                         <select id="origin" v-model="accountFromNumber" v-on:change="changedFrom"
                                 class="form-select" aria-label="Default select example" required>
@@ -141,13 +144,17 @@
                     <img src="img/Free%20Icon%20_%20Profile%20user.jpeg" class="profile rounded-circle">
                 </div>
                 <div class="col d-flex flex-column bd-highlight">
+                    <div v-if="transferType == 'third' && accountToNumber.length > 3" class="col d-flex justify-content-center">
+                        <p class="fs-4 fw-bolder">{{ownerAccountTo}}</p>
+                    </div>
                     <div class="col">
+                        {{findAccountOwner}}
                         <label for="to-account" class="form-label">To account</label>
-                        <template v-if="trasnferType == 'third'">
+                        <template v-if="transferType == 'third'">
                             <input id="to-account" type="text" v-model="accountToNumber"
                                    class="form-control" placeholder="VIN000554" aria-label="to account">
                         </template>
-                        <template v-if="trasnferType == 'own'">
+                        <template v-if="transferType == 'own'">
                             <select id="to-account" v-model="accountToNumber" class="form-select"
                                     aria-label="Default select example" required>
                                 <option value="VIN">Open this select menu</option>
@@ -156,7 +163,7 @@
                             </select>
                         </template>
                     </div>
-                    <div class="col mt-5">
+                    <div class="col mt-2">
                         <label for="description" class="form-label">Description</label>
                         <input id="description" v-model="description" type="text" class="form-control"
                                placeholder="Rent payment" aria-label="to account">

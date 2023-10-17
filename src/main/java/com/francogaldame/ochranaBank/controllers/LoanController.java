@@ -1,10 +1,7 @@
 package com.francogaldame.ochranaBank.controllers;
 
 
-import com.francogaldame.ochranaBank.dtos.LoanApplicationDTO;
-import com.francogaldame.ochranaBank.dtos.LoanApprovedDTO;
-import com.francogaldame.ochranaBank.dtos.LoanDTO;
-import com.francogaldame.ochranaBank.dtos.LoanDeleteDTO;
+import com.francogaldame.ochranaBank.dtos.*;
 import com.francogaldame.ochranaBank.services.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +18,10 @@ public class LoanController {
 
     @Autowired
     LoanService loanService;
+
+
+    @GetMapping("/client-loans")
+    public Set<ClientLoanDTO> getClientLoans(){ return loanService.getClientLoans();}
 
     @GetMapping("/loans")
     public Set<LoanDTO> getLoans(){

@@ -1,6 +1,7 @@
 package com.francogaldame.ochranaBank.controllers;
 
 
+import com.francogaldame.ochranaBank.dtos.CardDTO;
 import com.francogaldame.ochranaBank.models.CardColor;
 import com.francogaldame.ochranaBank.models.CardType;
 import com.francogaldame.ochranaBank.models.Client;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class CardController {
@@ -19,6 +22,10 @@ public class CardController {
     private CardService cardService;
 
 
+    @GetMapping("/cards")
+    public List<CardDTO> getAllCards() {
+        return cardService.getCards();
+    }
     @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createdCard(
             @RequestParam CardType cardType, @RequestParam CardColor cardColor,

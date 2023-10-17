@@ -1,5 +1,6 @@
 package com.francogaldame.ochranaBank.services.implement;
 
+import com.francogaldame.ochranaBank.dtos.CardDTO;
 import com.francogaldame.ochranaBank.models.Card;
 import com.francogaldame.ochranaBank.models.CardColor;
 import com.francogaldame.ochranaBank.models.CardType;
@@ -13,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,12 @@ public class CardServiceImplement implements CardService {
     private CardRepository cardRepository;
     @Autowired
     private ClientRepository clientRepository;
+
+    @Override
+    public List<CardDTO> getCards(){
+        List<Card> allCards = cardRepository.findAll();
+        return allCards.stream().map(card -> new CardDTO(card)).collect(Collectors.toList());
+    }
 
     @Override
     public ResponseEntity<Object> createdCard(CardType cardType,CardColor cardColor,

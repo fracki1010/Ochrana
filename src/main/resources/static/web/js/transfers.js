@@ -3,6 +3,8 @@ Vue.createApp({
         return {
             clientAccounts: [],
             clientAccountsTo: [],
+            filterAccountOwner: [],
+            ownerAccountTo: '',
             clientInfo: [],
             creditCards: [],
             debitCards: [],
@@ -10,7 +12,7 @@ Vue.createApp({
             errorMsg: null,
             accountFromNumber: "VIN",
             accountToNumber: "VIN",
-            trasnferType: "own",
+            transferType: "own",
             amount: 0,
             description: ""
         }
@@ -87,6 +89,7 @@ Vue.createApp({
             if (this.trasnferType == "own") {
                 this.clientAccountsTo = this.clientAccounts.filter(account => account.number != this.accountFromNumber);
                 this.accountToNumber = "VIN";
+                console.log(this.clientAccountsTo);
             }
         },
         finish: function () {
@@ -100,6 +103,23 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
+        getAccountAll: function () {
+            let config = {
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                }
+            }
+            axios.get(`/api/accounts`, config)
+                .then(response => {
+                    this.filterAccountOwner = response.data;
+
+                })
+                .catch((error) => {
+                    this.errorMsg = error.response.data;
+                    this.errorToats.show();
+                    this.errorMsg = "This account does not have that amount"
+                })
+        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
@@ -107,5 +127,18 @@ Vue.createApp({
         this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
         this.getData();
         this.getDataClient();
+        this.getAccountAll();
+    },
+    computed:{
+        findAccountOwner: function (){
+            let accountToTransfer = this.filterAccountOwner.find(account => account.number === this.accountToNumber);
+            if(typeof accountToTransfer === "undefined"){
+                if(this.accountToNumber.length > 3){
+                this.ownerAccountTo = 'Does not exist';
+                }
+            }else{
+                this.ownerAccountTo = accountToTransfer.owner
+            }
+        }
     }
 }).mount('#app')

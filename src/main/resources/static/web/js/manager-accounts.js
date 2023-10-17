@@ -2,29 +2,14 @@ Vue.createApp({
     data() {
         return {
             clientInfo: {},
-            clientsInfo: {},
-            accountsInfo: {},
+            accountsInfo: [],
+            filterAccountsInfo: [],
+            search: '',
             errorToats: null,
             errorMsg: null,
         }
     },
     methods: {
-        prueba: function (parametro) {
-            console.log(this.clientInfo);
-            console.log(parametro);
-        },
-        getAllClientsData: function () {
-            axios.get("/api/clients")
-                .then((response) => {
-                    //Obtener todos los clientes registrados
-                    this.clientsInfo = response.data;
-                })
-                .catch((error) => {
-                    this.errorMsg = "Error getting data";
-                    this.errorToats.show();
-                })
-
-        },
         getDataClient: function () {
             axios.get("/api/clients/current")
                 .then((response) => {
@@ -48,6 +33,10 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
+        bottomFilterAccounts: function (){
+            this.filterAccountsInfo = this.accountsInfo.filter(account => account.number.toLowerCase().includes(this.search));
+
+        },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
         },
@@ -59,19 +48,18 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
-        createCard: function () {
-            axios.post('/api/clients/current/accounts')
-                .then(response => window.location.reload())
-                .catch((error) => {
-                    this.errorMsg = error.response.data;
-                    this.errorToats.show();
-                })
-        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
         this.getDataClient();
         this.getAllAccountsData();
-        this.getAllClientsData();
+    },
+    computed:{
+        searchIsEmpty: function (){
+            if (this.search.length === 0){
+                this.filterAccountsInfo = this.accountsInfo;
+            }
+            console.log(this.search)
+        }
     }
 }).mount('#app')
