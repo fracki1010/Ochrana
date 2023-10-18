@@ -34,7 +34,7 @@ Vue.createApp({
                 })
         },
         bottomFilterAccounts: function (){
-            this.filterAccountsInfo = this.accountsInfo.filter(account => account.number.toLowerCase().includes(this.search));
+            this.filterAccountsInfo = this.accountsInfo.filter(account => account.number.toLowerCase().includes(this.search.toLowerCase()));
 
         },
         formatDate: function (date) {
@@ -59,7 +59,6 @@ Vue.createApp({
             if (this.search.length === 0){
                 this.filterAccountsInfo = this.accountsInfo;
             }
-            console.log(this.search)
         }
     }
 }).mount('#app')

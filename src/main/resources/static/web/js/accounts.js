@@ -37,7 +37,7 @@ Vue.createApp({
                     this.errorMsg = error.response.data;
                     this.errorToats.show();
                 })
-        }
+        },
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

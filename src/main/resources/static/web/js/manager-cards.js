@@ -35,10 +35,10 @@ Vue.createApp({
         },
         bottomFilterCards: function (){
             this.filterCardsInfo = this.cardsInfo
-                                   .filter(card => card.number.toLowerCase().includes(this.search)
-                                   || card.type.toLowerCase().includes(this.search)
-                                   || card.color.toLowerCase().includes(this.search)
-                                   || card.cvv.toString().includes(this.search));
+                                   .filter(card => card.number.toLowerCase().includes(this.search.toLowerCase())
+                                   || card.type.toLowerCase().includes(this.search.toLowerCase())
+                                   || card.color.toLowerCase().includes(this.search.toLowerCase())
+                                   || card.cvv.toString().includes(this.search.toLowerCase()));
         },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');

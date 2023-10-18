@@ -31,21 +31,30 @@ public class WebAuthorization{
                         "/web/transfers.html","/web/loan-application.html").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers("/api/clients/current").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/cards").hasAnyAuthority("CLIENT","ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/client-loans").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/cards").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts/approved").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/cards/approved").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/loans/approved").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts/delete").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/cards/delete").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/loans/delete").hasAuthority("ADMIN")
                 .antMatchers( "/api/clients/current/cards").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers( HttpMethod.GET,"/api/clients/current/accounts").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/transactions").hasAnyAuthority("CLIENT","ADMIN")
-               /* .antMatchers("/api/accounts").hasAnyAuthority("ADMIN","CLIENT")*/
+                .antMatchers(HttpMethod.POST,"/api/accounts").hasAnyAuthority("ADMIN","CLIENT")
+                .antMatchers(HttpMethod.GET,"/api/accounts").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers("/api/accounts/**").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.GET, "/api/loans").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/loans").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/clients/**").hasAuthority("ADMIN")
-                .antMatchers("/web/accounts.html").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
                 .antMatchers("/api/clients").hasAuthority("ADMIN")
-                .antMatchers("web/manager").hasAuthority("ADMIN");
-                /*.anyRequest().denyAll();*/
+                .antMatchers("/web/manager-accounts.html","/web/manager-cards.html","/web/manager-clients.html",
+                        "/web/manager-client.html", "/web/manager-loans.html").hasAuthority("ADMIN")
+                .anyRequest().denyAll();
 
         http.formLogin()
                 .usernameParameter("email")

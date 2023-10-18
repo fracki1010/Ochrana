@@ -50,8 +50,8 @@ Vue.createApp({
         bottomFilterClients: function (){
             this.filterClientsInfo = this.clientsInfo
                                      .filter(client => client.firstName.toLowerCase()
-                                     .includes(this.search) || client.lastName.toLowerCase()
-                                     .includes(this.search));
+                                     .includes(this.search.toLowerCase()) || client.lastName.toLowerCase()
+                                     .includes(this.search.toLowerCase()));
 
         },
         formatDate: function (date) {
@@ -84,7 +84,6 @@ Vue.createApp({
                 this.filterClientsInfo = this.clientsInfo;
 
             }
-            console.log(this.search)
         }
     }
 }).mount('#app')

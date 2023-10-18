@@ -35,11 +35,10 @@ Vue.createApp({
         },
         bottomFilterLoans: function (){
             this.filterLoansInfo = this.loansInfo
-                                   .filter(loan => loan.payments.toString().includes(this.search)
-                                   || loan.name.toLowerCase().includes(this.search)
-                                   || loan.toAccountTransfer.toLowerCase().includes(this.search)
-                                   || loan.amount.toString().includes(this.search));
-                                   console.log(filterLoansInfo);
+                                   .filter(loan => loan.payments.toString().includes(this.search.toLowerCase())
+                                   || loan.name.toLowerCase().includes(this.search.toLowerCase())
+                                   || loan.toAccountTransfer.toLowerCase().includes(this.search.toLowerCase())
+                                   || loan.amount.toString().includes(this.search.toLowerCase()));
         },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
