@@ -19,4 +19,5 @@ public interface LoanService {
     ResponseEntity approvedLoan(LoanApprovedDTO loanApprovedDTO);
 
     ResponseEntity deleteLoan(Long loanDeleteDTO);
+
 }

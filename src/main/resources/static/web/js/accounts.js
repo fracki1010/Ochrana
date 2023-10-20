@@ -32,15 +32,26 @@ Vue.createApp({
         },
         createCard: function () {
             axios.post('/api/clients/current/accounts')
-                .then(response => window.location.reload())
+                .then(response =>   {
+                    this.modal.hide();
+                    this.okmodal.show();
+                })
                 .catch((error) => {
                     this.errorMsg = error.response.data;
                     this.errorToats.show();
                 })
         },
+        modalShow: function () {
+            this.modal.show();
+        },
+        finish: function () {
+            window.location.reload();
+        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
         this.getData();
+        this.modal = new bootstrap.Modal(document.getElementById('confirModal'));
+        this.okmodal = new bootstrap.Modal(document.getElementById('okModal'));
     }
 }).mount('#app')

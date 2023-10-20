@@ -107,19 +107,19 @@
     </nav>
 
 
-    <div class="col ps-5">
-        <div class="row mt-3">
-            <div class="col">
-                <h2 class="display-6 subtitle">Debit Cards
+
+        <div class="row mt-3 mx-0">
+            <div class="col m-0 p-0">
+                <h2 class="display-6 subtitle ps-5 m-0 mx-0">Debit Cards
                     <a v-if="clientInfo.cards != null && clientInfo.cards.length < 6" href="create-cards.html"
-                       id="create" class="btn btn-sm btn-success">Create</a>
+                       id="create" class="btn btn-sm btn-success">Request Card</a>
                 </h2>
             </div>
         </div>
-        <div class="ps-5">
-            <div class="row p-4 rounded border border-dark container-fluid">
-                <div v-if="debitCards.length <= 0">
-                    <span class="small">No debit cards</span>
+        <div class="pb-4 m-0">
+            <div class="row p-4 container-fluid">
+                <div v-if="filterDebitApproved.length <= 0">
+                    <span class="ps-4 fw-bolder">No debit cards</span>
                 </div>
                 <template v-for="card in debitCards">
                     <div v-if="card.approved == true" class="plastic-card col-12 col-md-3 mt-2 me-2">
@@ -156,14 +156,14 @@
 
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <h2 class="display-6">Credit Cards</h2>
+        <div class="row mt-3 mx-0">
+            <div class="col m-0 p-0">
+                <h2 class="display-6 ps-5 m-0 mx-0">Credit Cards</h2>
             </div>
         </div>
-        <div class="ps-5 pb-2">
-            <div class="row p-4 rounded border border-dark container-fluid" >
-                <span class="small" v-if="creditCards.length <= 0">No credit cards</span>
+        <div class="pb-2 m-0">
+            <div class="row p-4 container-fluid" >
+                <span class="ps-4 fw-bolder" v-if="filterCreditApproved.length <= 0">No credit cards</span>
                 <template v-for="card in creditCards">
                     <div v-if="card.approved == true" class="plastic-card col-12 col-md-3 mt-2 me-2">
                     <div v-bind:class="['plastic-card__front', 'plastic-card__part', card.color.toLowerCase() +'-plastic-card']">
@@ -198,7 +198,6 @@
                 </template>
             </div>
         </div>
-    </div>
 </div>
 </div>
 </div>

@@ -75,10 +75,21 @@ Vue.createApp({
                     this.modal.hide();
                     this.okmodal.show();
                 })
-                .catch((error) => {
-                    this.errorMsg = error.response.data;
-                    this.errorToats.show();
-                    this.errorMsg = "This account does not have that amount"
+                .catch(error => {
+                    if (error.response && error.response.status === 403) {
+                      // Acceder a la respuesta de error cuando se recibe un código 403
+                      const errorResponse = error.response;
+                      if (errorResponse.data) {
+                        // Acceder al texto de respuesta del error
+                        const errorText = errorResponse.data;
+                        this.errorMsg = errorText;
+                        this.errorToats.show();
+                      }
+                    }else{
+                        this.errorMsg = error.response.data;
+                        this.errorToats.show();
+                        this.errorMsg = "This account does not have that amount"
+                    }
                 })
         },
         changedType: function () {
@@ -86,7 +97,7 @@ Vue.createApp({
             this.accountToNumber = "VIN";
         },
         changedFrom: function () {
-            if (this.trasnferType == "own") {
+            if (this.transferType == "own") {
                 this.clientAccountsTo = this.clientAccounts.filter(account => account.number != this.accountFromNumber);
                 this.accountToNumber = "VIN";
                 console.log(this.clientAccountsTo);

@@ -5,6 +5,7 @@ import com.francogaldame.ochranaBank.dtos.*;
 import com.francogaldame.ochranaBank.models.*;
 import com.francogaldame.ochranaBank.repositories.*;
 import com.francogaldame.ochranaBank.services.LoanService;
+import com.francogaldame.ochranaBank.utils.PaymentsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class LoanServiceImplement implements LoanService {
     AccountRepository accountRepository;
     @Autowired
     TransactionRepository transactionRepository;
+
 
     @Override
     public Set<LoanDTO> getLoans(){
@@ -96,9 +98,13 @@ public class LoanServiceImplement implements LoanService {
             return new ResponseEntity<>("La cuenta de destino no esta aprobada", HttpStatus.FORBIDDEN);
         }
 
-        //Creacion del Prestamo al cliente
+        //Traemos el loan solicitado por el cliente para poder espesificar el nombre
+        Loan loanRequest = loanRepository.findById(loanApplicationDTO.getLoanId()).orElse(null);
+
+        //Creacion del Prestamo al cliente, tambien se le agrega el interes con un utilis
         ClientLoan clientLoan = new ClientLoan(loanApplicationDTO.getPayments(),
-                loanApplicationDTO.getAmount() * 1.2, loanApplicationDTO.getToAccountNumber(), client, loan, false);
+                loanApplicationDTO.getAmount() * PaymentsUtils.bankInterest(loanApplicationDTO.getPayments(), loanRequest.getName()),
+                loanApplicationDTO.getToAccountNumber(), client, loan, false);
 
 
         //Guardado de cuenta y cliente
@@ -117,6 +123,7 @@ public class LoanServiceImplement implements LoanService {
         ClientLoan clientLoan = clientLoanRepository.findById(loanApprovedDTO.getClientLoanId()).orElse(null);
         clientLoan.setApproved(true);
 
+        // Sustraccion del interes, porque se coloca el interes cuando hacemos la transaccion
 
         //Creacion de la transaccion
         Transaction transaction = new Transaction(TransactionType.CREDIT, loanApprovedDTO.getAmount(),
@@ -143,4 +150,5 @@ public class LoanServiceImplement implements LoanService {
         clientLoanRepository.deleteById(loanDeleteDTO);
         return new ResponseEntity("Se elimino el prestamo",HttpStatus.OK);
     }
+
 }

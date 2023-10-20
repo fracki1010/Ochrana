@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -9,8 +9,8 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/3f4db2cda2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Create cards</title>
 </head>
 
@@ -102,72 +102,6 @@
         </div>
     </nav>
 
-    <!--<div class="container row col-10 bg-dark m-5 p-2 d-flex justify-content-center">
-
-        <div class="col col-6 m-3 p-3 bg-danger">
-            <h2 class="display-6 subtitle">Create cards</h2>
-            <form class="mt-4" v-on:submit="create($event)">
-                <div class="row mb-3">
-                    <label for="card-type" class="col-sm-4 col-form-label ">Card type:</label>
-                    <div class="col-sm-7">
-                        <select id="card-type" v-model="cardType" class="form-select"
-                                aria-label="Default select example" required>
-                            <option value="none">Open this select menu</option>
-                            <option value="CREDIT">Credit</option>
-                            <option value="DEBIT">Debit</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="card-color" class="col-sm-4 col-form-label">Card Color:</label>
-                    <div class="col-sm-7">
-                        <select id="card-color" v-model="cardColor" class="form-select"
-                                aria-label="Default select example" required>
-                            <option value="none">Open this select menu</option>
-                            <option value="SILVER">Silver</option>
-                            <option value="GOLD">Gold</option>
-                            <option value="TITANIUM">Titanium</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-sm btn-success">Create</button>
-            </form>
-        </div>
-        <div class="col col-6 bg-danger">
-            <div class="plastic-card col-12 col-md-3 mt-2 me-2">
-                &lt;!&ndash;<div v-bind:class="['plastic-card__front', 'plastic-card__part', card.color.toLowerCase() +'-plastic-card']">
-                    <div class="plastic-card__square">
-                        <span class="plastic-card__label">card.type card.color</span>
-                    </div>
-                    <img class="plastic-card__front-logo plastic-card__logo" src="img/logo-ochrana-sin-fondo.png">
-                    <p class="plastic-card_numer">123456789012</p>
-                    <div class="plastic-card__space-60">
-                        <span class="plastic-card__label">card holder</span>
-                        <p class="plastic-card__info">{{ clientInfo.firstName}} {{clientInfo.lastName}}</p>
-                    </div>
-                    <div class="plastic-card__space-25">
-                        <span class="plastic-card__label">Expires</span>
-                        <p class="plastic-card__info">formatDate(card.thruDate)</p>
-                    </div>
-                </div>&ndash;&gt;
-
-                &lt;!&ndash;<div v-bind:class="['plastic-card__back', 'plastic-card__part', card.color.toLowerCase() +'-plastic-card']">
-                    <div class="plastic-card__black-line"></div>
-                    <div class="plastic-card__back-content">
-                        <div class="plastic-card__secret">
-                            <p class="plastic-card__secret&#45;&#45;last">123</p>
-                        </div>
-                        <div class="plastic-card__back-square plastic-card__square">
-                            <span class="plastic-card__label">card.type  card.color</span>
-                        </div>
-                        <img class="plastic-card__back-logo plastic-card__logo" src="img/logo-ochrana-sin-fondo.png">
-                    </div>
-                </div>&ndash;&gt;
-            </div>
-        </div>
-    <div class="row">
-
-    </div>-->
     <div class="container bg-dark mt-4">
 
         <div class="row">
@@ -176,7 +110,7 @@
         <div class="row d-flex justify-content-evenly align-items-center col-12">
             <!--<div class="row col-10 align-items-center justify-content-evenly p-4">-->
             <div class="col col-md-4 bg-danger p-4 m-4 rounded-3">
-                <form class="mt-4" v-on:submit="create($event)">
+                <form class="mt-4">
                     <div class="row mb-3">
                         <label for="card-type" class="col-sm-4 col-form-label ">Card type:</label>
                         <div class="col-sm-7">
@@ -200,7 +134,7 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-success">Create</button>
+                    <button type="button" class="btn btn-sm btn-success" v-on:click="activeModal">Request</button>
                 </form>
             </div>
             <div class="col col-md-6 p-4 m-4 d-flex justify-content-center">
@@ -221,7 +155,7 @@
                         </div>
                     </div>
 
-                    <div v-bind:class="['plastic-card__back', 'plastic-card__part', cardColor.toLowerCase() +'-plastic-card']">
+                    <div v-bind:class="['plastic-card__back', 'plastic-card__part', cardColor.toLowerCase()+'-plastic-card']">
                         <div class="plastic-card__black-line"></div>
                         <div class="plastic-card__back-content">
                             <div class="plastic-card__secret">
@@ -238,6 +172,60 @@
             </div>
             <!--</div>-->
 
+            <div class="modal fade" id="confirModal" tabindex="-1" aria-labelledby="confirModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirModalLabel">Confirm Card</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            A card will be requested in your name, do you want to continue?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" v-on:click="create" class="btn btn-sm btn-success">Yes, request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 2-->
+            <div class="modal fade" id="okModal" tabindex="-1" aria-labelledby="okModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="okModalLabel">Application complete!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            The request was made successfully, now you must wait for an administrator to evaluate and approve it <i class="bi bi-check-circle-fill text-success"></i>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" v-on:click="finish" class="btn btn-sm btn-success"
+                                    data-bs-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---- Model 3---->
+            <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="okModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="errorModalLabel">Error with the requested card!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{errorMsg}} <i class="fa-solid fa-triangle-exclamation fa-xl" style="color: #f50000;"></i>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" v-on:click="finish" class="btn btn-sm btn-success"
+                                    data-bs-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -202,7 +202,7 @@ Vue.createApp({
                     this.errorToats.show();
                 })
         },
-        generatePDF: function (accountNumber) {
+        /*generatePDF: function (accountNumber) {
             // Crear un nuevo documento jsPDF
             let doc = new jsPDF();
 
@@ -275,6 +275,60 @@ Vue.createApp({
             // Guardar el documento como "mi-tabla.pdf"
             doc.save('Transaction_history.pdf');
 
+        },*/
+        generatePDF: function (accountNumber) {
+            let doc = new jsPDF();
+            let headers = ['N°', 'Description', 'Date', 'Amount'];
+            let accountSelect = this.clientSearchInfo.accounts.find(account => account.number === accountNumber).transactions;
+            let transactionsOrder = accountSelect.sort((a, b) => (b.id - a.id));
+            let transactionsData = [];
+            let data = [];
+
+            let posX = 20;
+            let posY = 40;
+
+            const title = 'OCHRANA BANK';
+            const titleX = 55;
+            const titleY = 20;
+            const titleSize = 26;
+
+            doc.setFontSize(titleSize);
+            doc.text(title, titleX, titleY);
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+
+            // Definir los anchos de las columnas
+            let columnWidths = [10, 80, 40, 50];
+
+            // Dibujar encabezados de columna
+            headers.forEach(function (header, index) {
+                doc.text(posX, posY, header);
+                posX += columnWidths[index];
+            });
+
+            posX = 20; // Restablecer la posición X
+            posY += 10; // Ajustar la posición Y
+
+            transactionsOrder.forEach(transaction => {
+                transactionsData.push(transaction.id.toString());
+                transactionsData.push(transaction.description);
+                transactionsData.push(transaction.date);
+                transactionsData.push(transaction.amount.toString());
+                data.push(transactionsData);
+                transactionsData = [];
+            });
+
+            data.forEach(function (row) {
+                row.forEach(function (cell, index) {
+                    doc.text(posX, posY, cell);
+                    posX += columnWidths[index];
+                });
+                posY += 10;
+                posX = 20;
+            });
+
+            doc.save('Transaction_history.pdf');
         },
     },
     mounted: function () {

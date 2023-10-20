@@ -50,11 +50,27 @@ const app = createApp({
                         }
                     }
                     axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}&rolType=CLIENT&dni=${this.dni}&birthdate=${this.birthdate}&cuil=${this.cuil}`, config)
-                        .then(() => { this.logIn(event) })
-                        .catch(() => {
-                            this.errorMsg = "Sign up failed, check the information"
+                        .then(() => {
+                            this.logIn(event)
+                            this.errorMsg = response.text();
                             this.errorToats.show();
                         })
+                        .catch(error => {
+                            if (error.response && error.response.status === 403) {
+                              // Acceder a la respuesta de error cuando se recibe un código 403
+                              const errorResponse = error.response;
+                              if (errorResponse.data) {
+                                // Acceder al texto de respuesta del error
+                                const errorText = errorResponse.data;
+                                this.errorMsg = errorText;
+                                this.errorToats.show();
+                              }
+                            }
+                        })
+                        /*.catch(() => {
+                            this.errorMsg = response.text();
+                            this.errorToats.show();
+                        })*/
                         console.log(this.birthdate);
         },
         showSignUpToogle: function () {

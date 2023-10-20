@@ -2,6 +2,7 @@ package com.francogaldame.ochranaBank.dtos;
 
 import com.francogaldame.ochranaBank.models.ClientLoan;
 import com.francogaldame.ochranaBank.models.Loan;
+import com.francogaldame.ochranaBank.utils.PaymentsUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class ClientLoanDTO {
         this.id = clientLoan.getId();
         this.name = clientLoan.getLoan().getName();
         this.payments = clientLoan.getPayments();
-        this.amount = clientLoan.getAmount();
+        this.amount = clientLoan.getAmount() / PaymentsUtils.bankInterest(clientLoan.getPayments(), clientLoan.getLoan().getName());
         this.toAccountTransfer = clientLoan.getToAccountTransfer();
         this.approved = clientLoan.getApproved();
     }

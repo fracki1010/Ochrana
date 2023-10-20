@@ -6,6 +6,8 @@ Vue.createApp({
             errorMsg: null,
             loanTypes: [],
             loanTypeId: 0,
+            loanName:'',
+            interest: 0,
             payments: 0,
             paymentsList: [],
             clientAccounts: [],
@@ -28,7 +30,7 @@ Vue.createApp({
                         this.errorMsg = "Error getting data";
                         this.errorToats.show();
                  })
-            },
+        },
         getData: function () {
             Promise.all([axios.get("/api/loans"), axios.get("/api/clients/current/accounts")])
                 .then((response) => {
@@ -79,13 +81,57 @@ Vue.createApp({
         },
         changedType: function () {
             this.paymentsList = this.loanTypes.find(loanType => loanType.id == this.loanTypeId).payments;
+            this.loanName = this.loanTypes.find(loanType => loanType.id == this.loanTypeId).name;
+
         },
+        bankInterest: function(payment, loanName) {
+                    if (loanName == "Hipotecario"){
+                        switch (payment) {
+                            case 12:
+                                return 1.2;
+                            case 24:
+                                return 1.4;
+                            case 36:
+                                return 1.6;
+                            case 48:
+                                return 1.8;
+                            case 60:
+                                return 1.9;
+                            default:
+                                return 0.0;
+                        }
+                    } else if (loanName == "Personal") {
+                        switch (payment){
+                            case 6:
+                                return 1.1;
+                            case 12:
+                                return 1.3;
+                            case 24:
+                                return 1.6;
+                            default:
+                                return 0.0;
+                        }
+                    } else if (loanName == "Automotriz") {
+                        switch (payment){
+                            case 12:
+                                return 1.3;
+                            case 24:
+                                return 1.6;
+                            case 36:
+                                return 1.8;
+                            default:
+                                return 0.0;
+                        }
+                    }
+                    return null;
+                },
         finish: function () {
-            window.location.reload();
+            window.location.href = "/web/cards.html";
         },
         checkFees: function () {
             this.fees = [];
-            this.totalLoan = parseInt(this.amount) + (this.amount * 0.2);
+            this.totalLoan = parseInt(this.amount * this.bankInterest(this.payments, this.loanName));
+            this.interest = parseInt((this.bankInterest(this.payments, this.loanName)-1)*100);
             let amount = this.totalLoan / this.payments;
             for (let i = 1; i <= this.payments; i++) {
                 this.fees.push({ amount: amount });
@@ -99,7 +145,7 @@ Vue.createApp({
                     this.errorMsg = "Sign out failed"
                     this.errorToats.show();
                 })
-        },
+        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

@@ -3,7 +3,9 @@ Vue.createApp({
         return {
             clientInfo: {},
             creditCards: [],
+            filterCreditApproved:[],
             debitCards: [],
+            filterDebitApproved: [],
             errorToats: null,
             errorMsg: null,
         }
@@ -12,10 +14,14 @@ Vue.createApp({
         getData: function () {
             axios.get("/api/clients/current")
                 .then((response) => {
-                    //get client ifo
+                    //Obtener info de tarjetas debit y credit
                     this.clientInfo = response.data;
                     this.creditCards = this.clientInfo.cards.filter(card => card.type == "CREDIT");
                     this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT");
+
+                    //filtrar tarjetas aprobadas
+                    this.filterCreditApproved = this.creditCards.filter(card => card.approved);
+                    this.filterDebitApproved = this.debitCards.filter(card => card.approved);
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";

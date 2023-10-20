@@ -41,7 +41,7 @@ public class WebAuthorization{
                 .antMatchers(HttpMethod.POST, "/api/loans/delete").hasAuthority("ADMIN")
                 .antMatchers( "/api/clients/current/cards").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers( HttpMethod.GET,"/api/clients/current/accounts").hasAnyAuthority("CLIENT","ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/transactions").hasAnyAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/accounts").hasAnyAuthority("ADMIN","CLIENT")
                 .antMatchers(HttpMethod.GET,"/api/accounts").hasAnyAuthority("ADMIN","CLIENT")

@@ -19,7 +19,7 @@ public class OchranaBankApplication <commandLineRunner> {
 		SpringApplication.run(OchranaBankApplication.class, args);
 	}
 
-	/*@Autowired
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	@Bean
@@ -80,7 +80,6 @@ public class OchranaBankApplication <commandLineRunner> {
 			Loan loan1 = new Loan("Hipotecario", 5000000, List.of(12, 24, 36, 48, 60));
 			Loan loan2 = new Loan("Personal", 1000000, List.of(6, 12, 24));
 			Loan loan3 = new Loan("Automotriz", 7000000, List.of(12, 24, 36));
-			Loan loan4 = new Loan("Empresario", 9000000, List.of(6, 12));
 
 			loanRepository.save(loan1);
 			loanRepository.save(loan2);
@@ -89,12 +88,12 @@ public class OchranaBankApplication <commandLineRunner> {
 
 			//Agregación de prestamos a clientes
 
-			ClientLoan clientLoan1 = new ClientLoan(60, 400000.0, "VIN001", client1, loan1, false);
-			ClientLoan clientLoan2 = new ClientLoan(12, 12000.0, "VIN001", client1, loan2, true);
+			ClientLoan clientLoan1 = new ClientLoan(60, 760000.0, "VIN001", client1, loan1, false);
+			ClientLoan clientLoan2 = new ClientLoan(12, 15600.0, "VIN001", client1, loan2, true);
 
 
-			ClientLoan clientLoan3 = new ClientLoan(24, 100000.0, "VIN003", client2, loan2, true);
-			ClientLoan clientLoan4 = new ClientLoan(36, 200000.0, "VIN003", client2, loan3, true);
+			ClientLoan clientLoan3 = new ClientLoan(24, 160000.0, "VIN003", client2, loan2, true);
+			ClientLoan clientLoan4 = new ClientLoan(36, 360000.0, "VIN003", client2, loan3, true);
 
 			clientLoanRepository.save(clientLoan1);
 			clientLoanRepository.save(clientLoan2);
@@ -123,5 +122,5 @@ public class OchranaBankApplication <commandLineRunner> {
 
 			pendingRepository.save(pending1);
 		};
-	}*/
+	}
 }
