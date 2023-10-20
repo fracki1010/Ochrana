@@ -60,7 +60,7 @@ public class AccountServiceImplement implements AccountService {
     public ResponseEntity<Object> createdAccount(Authentication authentication){
 
         if (clientRepository.findByEmail(authentication.getName()).getAccounts().size() >= 3){
-            return new ResponseEntity<>("Usted llego al limite de cuentas posibles", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You reached the limit of possible accounts", HttpStatus.FORBIDDEN);
         }
 
         //Creador de número random y comprobar que no exista en la base de datos
@@ -89,7 +89,7 @@ public class AccountServiceImplement implements AccountService {
         Account accountClient = accountRepository.findByNumber(numberAccount);
         accountClient.setApproved(true);
         accountRepository.save(accountClient);
-        return new ResponseEntity<>("Cuenta aprobada con exito",HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Account Created successfully",HttpStatus.ACCEPTED);
     }
 
     @Override
@@ -104,11 +104,11 @@ public class AccountServiceImplement implements AccountService {
                                         .filter(accountFilter -> accountFilter.getApproved())
                                         .collect(Collectors.toList());
         if (accountApproved.size() == 1) {
-            return new ResponseEntity<>("No se puede eliminar, el cliente debe tener al menos una cuenta aprobada",  HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Cannot be deleted, customer must have at least one approved account",  HttpStatus.FORBIDDEN);
         }
         account.getTransactions().stream().forEach(transaction -> transactionRepository.delete(transaction));
         accountRepository.delete(account);
-        return new ResponseEntity<>("Cuenta eliminada con exito",HttpStatus.OK);
+        return new ResponseEntity<>("Account deleted successfully",HttpStatus.OK);
     }
 
 

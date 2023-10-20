@@ -65,7 +65,7 @@ public class CardServiceImplement implements CardService {
                     colorOrTypeCard = "DEBIT";
                     break;
             }
-            return new ResponseEntity<>("Alcanzo el limite de tarjetas de " + colorOrTypeCard, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You have reached the limit of debit " + colorOrTypeCard + " cards requested", HttpStatus.FORBIDDEN);
         }
 
 
@@ -82,7 +82,7 @@ public class CardServiceImplement implements CardService {
                     colorOrTypeCard = "TITANIUM";
                     break;
             }
-            return new ResponseEntity<>("Alcanzo el limite de la tarjeta " + colorOrTypeCard, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You have reached the limit of requested gold " + colorOrTypeCard + " cards", HttpStatus.FORBIDDEN);
         }
 
 

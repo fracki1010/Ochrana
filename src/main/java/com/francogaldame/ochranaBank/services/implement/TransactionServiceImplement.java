@@ -34,17 +34,17 @@ public class TransactionServiceImplement implements TransactionService {
 
         //Verificar que no haya espacios en blanco y todo este completo
         if (fromAccountNumber.isBlank() || toAccountNumber.isBlank() || amount == 0 || description.isBlank()){
-            return new ResponseEntity<>("Porfavor complete todos los casilleros", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Please complete all fields", HttpStatus.FORBIDDEN);
         }
 
         //Verificar que las cuentas no sean identicas
         if (fromAccountNumber.equals(toAccountNumber)){
-            return new ResponseEntity<>("Los numeros de cuenta son identicos",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The account numbers are identical",HttpStatus.FORBIDDEN);
         }
 
         //Verifica que la cuenta de origen exista
         if (!accountRepository.existsByNumber(fromAccountNumber)){
-            return new ResponseEntity<>("No existe esta cuenta",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("This account does not exist",HttpStatus.FORBIDDEN);
         }
 
 
@@ -57,12 +57,12 @@ public class TransactionServiceImplement implements TransactionService {
                 .collect(Collectors.toSet());
 
         if (!currentAccount.contains(fromAccountNumber)){
-            return new ResponseEntity<>("Esta cuenta no es del cliente actual", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("This account is not the current client's", HttpStatus.FORBIDDEN);
         }
 
         //Verificar que la cuenta de destino exista
         if (!accountRepository.existsByNumber(toAccountNumber)){
-            return new ResponseEntity<>("No existe la cuenta de destino", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The destination account exists", HttpStatus.FORBIDDEN);
         }
 
         //Busqueda de ambas cuentas en la base de datos y asignacion a una variable
@@ -71,12 +71,12 @@ public class TransactionServiceImplement implements TransactionService {
 
         //Verifica que las cuentas elegidas esten aprobadas
         if (!originAccount.getApproved() || !destinationAccount.getApproved()){
-            return new ResponseEntity<>("Cuenta no aprobada", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Unapproved account", HttpStatus.FORBIDDEN);
         }
 
         //Condicion el cliente tiene el balance suficiente para la transaccion
         if(originAccount.getBalance() < amount){
-            return new ResponseEntity<>("No el tiene dinero suficiente en su cuenta", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("He doesn't have enough money in his account", HttpStatus.FORBIDDEN);
         }
 
         //Transaccion 1

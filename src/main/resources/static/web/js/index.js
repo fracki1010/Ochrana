@@ -10,6 +10,7 @@ const app = createApp({
             dni: "",
             birthdate: "",
             cuil: "",
+            btnSignInActive: true,
             errorToats: null,
             errorMsg:"",
             showSignUp: false,
@@ -43,6 +44,7 @@ const app = createApp({
 
         //Registrar un cliente nuevo
         register: function (event) {
+                    this.btnSignInActive = false;
                     event.preventDefault();
                     let config = {
                         headers: {
@@ -56,6 +58,7 @@ const app = createApp({
                             this.errorToats.show();
                         })
                         .catch(error => {
+                            this.btnSignInActive = true;
                             if (error.response && error.response.status === 403) {
                               // Acceder a la respuesta de error cuando se recibe un código 403
                               const errorResponse = error.response;
@@ -80,6 +83,9 @@ const app = createApp({
         formatDate: function (date) {
                     return new Date(date).toLocaleDateString('en-gb');
         },
+        bottomSignIn: function () {
+            this.btnSingInActive = !this.btnSingInActive;
+        }
 
     },
     mounted: function () {

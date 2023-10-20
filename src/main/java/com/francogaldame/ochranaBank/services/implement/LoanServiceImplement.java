@@ -65,37 +65,37 @@ public class LoanServiceImplement implements LoanService {
         //Verifica que los campos no este vacios
         if (loanApplicationDTO.getToAccountNumber().isBlank() || loanApplicationDTO.getLoanId() == 0
                 || loanApplicationDTO.getAmount() == 0 || loanApplicationDTO.getPayments() == 0){
-            return new ResponseEntity<>("Completa todos los campos", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Complete all fields", HttpStatus.FORBIDDEN);
         }
 
         if (!loanRepository.existsById(loanApplicationDTO.getLoanId())){
-            return new ResponseEntity<>("El prestamo no existe", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The requested loan does not exist", HttpStatus.FORBIDDEN);
         }
 
         //Loan pedido por el cliente
         Loan loan = loanRepository.findById(loanApplicationDTO.getLoanId()).orElse(null);
         //Verifica que el monto no exceda el prestamo maximo
         if (loan.getMaxAmount() <= loanApplicationDTO.getAmount()){
-            return new ResponseEntity<>("El monto que pide excede a maximo posible", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The amount requested exceeds the maximum possible", HttpStatus.FORBIDDEN);
         }
 
         //Verificar que la cantidad de cuotas exista en el prestamo
         if (!loan.getPayments().contains(loanApplicationDTO.getPayments())){
-            return new ResponseEntity<>("Selecciono una cantidad de cuotas inexistente", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("I select a non-existent amount of installments", HttpStatus.FORBIDDEN);
         }
 
         if (!accountRepository.existsByNumber(loanApplicationDTO.getToAccountNumber())){
-            return new ResponseEntity<>("La cuenta de destino no existe", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The destination account does not exist", HttpStatus.FORBIDDEN);
         }
 
         //Verifica que la cuenta de destino pertenezca al cliente autenticado
         if (!client.getAccounts().contains(accountClient)){
-            return new ResponseEntity<>("La cuenta de destino no pertenece al cliente autenticado", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The destination account does not belong to the authenticated client", HttpStatus.FORBIDDEN);
         }
 
         //Verifica que la cuenta esta previamente aprobada por un administrador
         if(!accountClient.getApproved()){
-            return new ResponseEntity<>("La cuenta de destino no esta aprobada", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The destination account is not approved", HttpStatus.FORBIDDEN);
         }
 
         //Traemos el loan solicitado por el cliente para poder espesificar el nombre
@@ -140,7 +140,7 @@ public class LoanServiceImplement implements LoanService {
         accountRepository.save(accountClient);
         transactionRepository.save(transaction);
 
-        return new ResponseEntity("Se realizo la aprobacion del pago",HttpStatus.OK);
+        return new ResponseEntity("Payment approval is made",HttpStatus.OK);
     }
 
 
@@ -148,7 +148,7 @@ public class LoanServiceImplement implements LoanService {
     @Override
     public ResponseEntity deleteLoan(Long loanDeleteDTO){
         clientLoanRepository.deleteById(loanDeleteDTO);
-        return new ResponseEntity("Se elimino el prestamo",HttpStatus.OK);
+        return new ResponseEntity("delete loan",HttpStatus.OK);
     }
 
 }

@@ -103,17 +103,17 @@ public class ClientServiceImplement implements ClientService {
 
         //Identificar si es mayor
         if (Period.between(birthdateChange, LocalDate.now()).getYears() <= 18){
-            return new ResponseEntity<>("Esta persona es menor de edad", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("This person is a minor", HttpStatus.FORBIDDEN);
         }
 
         //Verifica que el dni no tenga puntos y no tenga menos de 7 digitos
         if(DNI.length() <= 7 || DNI.length() >= 9 || DNI.contains(".")){
-            return new ResponseEntity<>("El DNI no es valido", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The DNI is not valid", HttpStatus.FORBIDDEN);
         }
 
         //Verifica que el cuil no tenga errores
         if(!cuil.matches("\\d{2}-\\d{8}-\\d")){
-            return new ResponseEntity<>("El cuil no es valido", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("The CUIL is not valid", HttpStatus.FORBIDDEN);
         }
 
         //Identificaion del clinte y asignacion de cuenta a cliente
@@ -129,7 +129,7 @@ public class ClientServiceImplement implements ClientService {
 
         //----------------------------------
 
-        return new ResponseEntity<>("Cliente registrado con existo",HttpStatus.CREATED);
+        return new ResponseEntity<>("Client registered with existo",HttpStatus.CREATED);
     }
 
 
