@@ -1,8 +1,6 @@
-package com.francogaldame.ochranaBank.controllers;
+package com.francogaldame.ucoFreestyle.controllers;
 
-import com.francogaldame.ochranaBank.dtos.ClientDTO;
-import com.francogaldame.ochranaBank.models.RolType;
-import com.francogaldame.ochranaBank.services.ClientService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

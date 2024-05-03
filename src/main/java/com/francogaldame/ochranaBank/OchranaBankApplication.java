@@ -19,7 +19,7 @@ public class OchranaBankApplication <commandLineRunner> {
 		SpringApplication.run(OchranaBankApplication.class, args);
 	}
 
-	/*@Autowired
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	@Bean
@@ -122,5 +122,5 @@ public class OchranaBankApplication <commandLineRunner> {
 
 			pendingRepository.save(pending1);
 		};
-	}*/
+	}
 }
